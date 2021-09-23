@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script> 
+    <!--Web3 and moralis-->
+	<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://unpkg.com/moralis@0.0.54/dist/moralis.js"></script>
+    <!--Font awesome-->
+    <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
+   
+    <script src="abi.js"></script>
+    <link rel="shortcut icon" href="assets/coinFlipDappLogo.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+  
+    
+
+    <title>50/50 Flip</title>
+</head>
+<body>
+
+    <nav class="menu navbar navbar-expand-md navbar-light">
+        <a class="navbar-brand" href="index.html" style="color:#8f17f9;"></a><b>50/50 Flip</b></a>
+        <div class="navbar-collapse collapse justify-content-end">
+          <div>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="btn button_Nav btn-homepage btn-primary"  id="btn-login"  style="margin-right:5px;">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn button_Nav btn-homepage btn-primary"  id="btn-logout" style="margin-right:5px;" >logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+  
+      <div class="promo">
+        <div class="container">
+          <div class="banner">
+            <div style="display:flex; justify-content: center;"><img src="./assets/coinFlipDappLogo.png" alt="" style="width: 300px;"> </div>
+            <br>
+            <p>A Casino style Dapp with 50/50 odds. Dex powered by<span><img src="./assets/1inch_bw_white.svg" alt="1inch logo" width="100px"></span></p>
+            <a href="learnmore.html" class="btn button_Nav btn-homepage btn-primary">Learn More</a>
+          </div>
+        </div>
+    </div>
+
+
+    <div class="container" id="game">
+      <br>
+      <div style="display: flex; flex-flow: wrap; justify-content: center;">
+        <input type="number" id="amount" placeholder="place your bet" required> 
+        
+        <button id="headsBtn">Play Heads <i class="fab fa-ethereum" style="margin-left: 15px"></i></button>
+        <button id="tailsBtn">Play Tails <i class="fab fa-ethereum" style="margin-left: 15px"></i></button> <br><br>
+        <button id="balanceBtn">Dapp Balance <i class="fab fa-ethereum" style="margin-left: 5px"></i></button>
+        <button id="balanceBtn" data-bs-toggle="modal" id="dexBtn" data-bs-target="#dexModal">DEX <img src="./assets/1inch_bw_black_v.svg" alt="1inch logo" width="50px" style="margin-left: 5px"></button>
+      </div>
+        
+      <br><br>
+
+      
+        <div class="row " id="stats" style="display: flex; flex-flow: wrap; justify-content: center;">
+          <div class="col-md-6">
+            <h3 style="text-align: center;">Top Winners</h3>
+
+            <table class="table table-dark table-striped table-hover table-bordered" id="winners">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Address</th>
+                  <th scope="col">Total Won</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+         
+
+          <div class="col-md-6">
+            <h3 style="text-align: center;">Top Losers</h3>
+
+            <table class="table  table-striped table-hover table-dark table-bordered" id="losers">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Address</th>
+                  <th scope="col">Total Lost</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="col-md-6">
+            <h3 style="text-align: center;">Biggest Bets Place</h3>
+
+            <table class="table table-dark table-striped table-hover table-bordered" id="bigBets">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Address</th>
+                  <th scope="col">Amount</th>
+                  <th scope="col">Win/Lose</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- DEX  Modal -->
+<div class="modal fade" id="dexModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">50 DEX Swap. Built with <img src="./assets/Moralis Logo_Dark.svg" alt="Moralis logo" width="100px"> Powered By <img src="./assets//1inch_bw_black.svg" alt="1inch logo" height=100px; width=100px;></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="content">
+          <h2></h2>
+          <h3></h3>
+          <img src="" alt="">
+
+          <h2>MAINNET FEATURE ONLY! NOT AVAILABLE ON TEST</h2>
+          <a href="learnmore.html"><small>click HERE to learn more</small></a>
+         <br> 
+          <table  class="table table-dark table-striped table-bordered table-hover table-sm table-responsive" id="swapsTable">
+            <caption>
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Token</th>
+                <th scope="col">Swap</th>
+              </tr>
+            </thead>
+            <tbody id="swaps"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+        </div>
+        
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+</body>
+</html>
