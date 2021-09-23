@@ -11,13 +11,27 @@ const ONEINCH_ADDRESS = "0x111111111117dc0aa78b770fa6a738034120c302";
 const DIA_ADDRESS = "0x6b175474e89094c44da98b954eedeac495271d0f";
 const SUSHI = "0x6b3595068778dd592e39a122f4f5a5cf09c90fe2"
 async function init() {
-   
-    await Moralis.initPlugins();
-    DEX = Moralis.Plugins.oneInch;
-    displayDEX();
+     let user = await Moralis.User.current();
+    //await Moralis.initPlugins();
+    //DEX = Moralis.Plugins.oneInch;
+    
 
     $('#game').hide();
     $('#btn-logout').hide();
+
+    
+    if(user){
+
+        $('#btn-login').hide();
+
+        $('#game').show();
+        $('#btn-logout').show();
+
+        displayWinnerData();
+        displayLoserData();
+        displayBigBetData();  
+        displayDEX();
+    }
 
     
   
